@@ -13,14 +13,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package eu.agiljejava.jwt;
+package eu.agilejava.jwt.secure;
 
-import javax.ws.rs.ApplicationPath;
-import javax.ws.rs.core.Application;
+import org.eclipse.microprofile.jwt.Claim;
+import org.eclipse.microprofile.jwt.ClaimValue;
+
+import javax.annotation.security.RolesAllowed;
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
 
 /**
  *
  */
-@ApplicationPath("")
-public class ApplicationConfig extends Application {
+@Path("/protected")
+@RequestScoped
+public class ProtectedController {
+
+    @Inject
+    @Claim("custom-value")
+    private ClaimValue<String> custom;
+
+    @GET
+    @RolesAllowed("senior")
+    public String getJWTBasedValue() {
+        return "Protected Resource; Custom value : " + custom.getValue();
+    }
 }

@@ -13,34 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package eu.agiljejava.jwt;
+package eu.agilejava.jwt;
 
-public class UserCredentials {
+import org.eclipse.microprofile.auth.LoginConfig;
 
-    private  String username;
-    private  String password;
+import javax.annotation.security.DeclareRoles;
 
-    public UserCredentials() {
-    }
+import javax.ws.rs.ApplicationPath;
+import javax.ws.rs.core.Application;
 
-    public UserCredentials(String username, String password) {
-        this.username = username;
-        this.password = password;
-    }
+/**
+ *
+ */
+@ApplicationPath("/data")
 
-    public String getPassword() {
-        return password;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
+@LoginConfig(authMethod = "MP-JWT", realmName = "jwt-jaspi")
+@DeclareRoles({"senior"})
+public class SecureApplication extends Application {
 }
