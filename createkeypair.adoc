@@ -1,0 +1,10 @@
+keytool -genkey -alias app -keyalg RSA -keystore private.jks -keysize 4096
+ 
+keytool -v -export -file private.cer -keystore private.jks -alias app
+ 
+keytool -import -alias app -file private.cer -keystore public.jks
+
+openssl x509 -inform der -in private.cer -out private.pem
+
+keytool -list -v -keystore public.jks 
+cat private.pem
